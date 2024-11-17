@@ -355,16 +355,38 @@ import tempfile
 import numpy as np
 import pathlib
 from pathlib import Path
+import os
+import urllib.request
 
 # Fix for Windows path compatibility
 pathlib.PosixPath = pathlib.WindowsPath
 
 # Update the paths to your local directories
-repo_path = r'C:\Users\Admin\Downloads\tennis_videos\yolov5'  # Replace with your YOLOv5 repo path
-model_path = r'C:\Users\Admin\Downloads\tennis_videos\best.pt'  # Replace with your actual .pt file path
+#repo_path = r'C:\Users\Admin\Downloads\tennis_videos\yolov5'  # Replace with your YOLOv5 repo path
+#model_path = r'C:\Users\Admin\Downloads\tennis_videos\best.pt'  # Replace with your actual .pt file path
 
 # Load the custom YOLOv5 model from local path
+#model = torch.hub.load(repo_path, 'custom', path=model_path, source='local')
+
+# Replace with the official YOLOv5 GitHub repo or your custom repo
+#repo_path = 'ultralytics/yolov5'  # Official YOLOv5 repo, or use your own repo URL
+
+# Replace with the raw GitHub URL for your model file (best.pt)
+#model_path = 'https://github.com/janudokku123/Tennis-Ball-Detection/main/best.pt'
+
+# Load the custom YOLOv5 model from the GitHub repo
+#model = torch.hub.load(repo_path, 'custom', path=model_path, source='github')
+
+
+model_path = './best.pt'
+if not os.path.exists(model_path):
+    url = 'https://github.com/janudokku123/Tennis-Ball-Detection/main/best.pt'
+    urllib.request.urlretrieve(url, model_path)
+
+# Load YOLOv5 model
+repo_path = './yolov5'  # Ensure this exists in your GitHub repo
 model = torch.hub.load(repo_path, 'custom', path=model_path, source='local')
+
 
 # Streamlit app UI
 st.title('Tennis Player Detection App')
